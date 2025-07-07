@@ -6,7 +6,6 @@ import com.example.create_user.mapper.UserMapper;
 import com.example.create_user.model.User;
 import com.example.create_user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserDto save(CreateRequestUserDto requestUserDto) {
@@ -24,7 +22,6 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.toModel(requestUserDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userMapper.toDto(userRepository.save(user));
     }
 
